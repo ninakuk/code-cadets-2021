@@ -21,6 +21,8 @@ import (
 // Definition of a struct/class. Names (methods, functions, attributes, variables...)
 // which are capitalised are exported which means they can be used by other packages. There
 // are no public/private keywords in Go.
+//nema public privat, imena s velikim pocetnim slovom su public, eksportana su
+//s malim slovima nisu eksportana i private su
 type yesNoResponse struct {
 	Answer string
 	Forced bool
@@ -28,6 +30,7 @@ type yesNoResponse struct {
 }
 
 // Constant definition. Notice that the `string` type is inferred.
+//compiler sam skuzio da je to string, ne moram eksplicitno napisat da je string
 const yesNoURL = "http://yesno.wtf/api"
 
 // Function definition. Notice that the type of the argument comes after the name and that
@@ -41,10 +44,11 @@ func linearBackoff(retry int) time.Duration {
 // `main` function, entry-point of a Go program.
 func main() {
 	// Calling `New()` from `pester` package to create an http client. Notice that by using the
-	// `:=` notation the type of the variable will be inferred.
+	// `:=` notation the type of the variable will be inferred. sam skuzi koji je tip bejsikli
 	httpClient := pester.New()
 
 	// Setting the struct's attribute.
+	//backoff je pokaz na funkciju backoff
 	httpClient.Backoff = linearBackoff
 
 	// Functions in Go can return multiple values. The last returned value is usually an error
@@ -54,7 +58,7 @@ func main() {
 	// languages but should be rarely used.
 	httpResponse, err := httpClient.Get(yesNoURL)
 	// `if err != nil` is the usual Go idiom to check whether the previous
-	// function call was successful.
+	// function call was successful. nil=null
 	if err != nil {
 		log.Fatal(
 			errors.WithMessage(err, "HTTP get towards yesno API"),
@@ -84,5 +88,6 @@ func main() {
 
 	// Go support some interesting verbs in `printf` (and similar functions) like `%v` here.
 	// `%v` prints the whole contents of the struct.
+	//deserijalizacija!!!
 	log.Printf("Response from yesno: %v", decodedContent)
 }

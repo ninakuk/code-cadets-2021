@@ -12,7 +12,7 @@ func main() {
 	val := m["B"]
 	log.Println(val)
 
-	// Zero value
+	// Zero value, nije definiran gore u m
 	val = m["D"]
 	log.Println(val)
 
